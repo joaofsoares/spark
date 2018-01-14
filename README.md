@@ -14,6 +14,8 @@ SBT version = 1.1.0
  
  - SparkPi
  
+ - SparkMySQL
+ 
 **SBT Compile**
 
 `sbt clean`
