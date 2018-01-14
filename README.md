@@ -54,3 +54,5 @@ SBT version = 1.1.0
  `spark/bin $ ./spark-submit --class "SparkPi" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
  
  `spark/bin $ ./spark-submit --class "SparkWordCount" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
+ 
+ `spark/bin $ ./spark-submit --class "SparkMySQL" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
