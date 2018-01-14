@@ -18,9 +18,9 @@ object SparkWordCount extends App {
   val sc = new SparkContext(sparkConf)
 
   // this block is used for big files
-  //  val slices = if (args.length > 0) args(0).toInt else 2
-  //  val n = 100000 * slices
-  //  sc.textFile(InputFile, n)
+  // val slices = if (args.length > 0) args(0).toInt else 2
+  // val n = 100000 * slices
+  // sc.textFile(InputFile, n)
 
   sc.textFile(InputFile)
     .flatMap(line => line.split(" "))
