@@ -50,10 +50,14 @@ SBT version = 1.1.0
  - Start
  
  `spark/bin $ ./spark-class org.apache.spark.deploy.worker.Worker spark://localhost:7077`
+
+ `spark/sbin $ ./spark-slave.sh spark://localhost:7077`
  
  - Stop
  
  `Ctrl + C`
+
+ `spark/sbin $ ./stop-slave.sh`
  
  **Deploy on Cluster**
  
