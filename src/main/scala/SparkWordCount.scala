@@ -14,8 +14,8 @@ object SparkWordCount extends App {
 
     properties.load(input)
 
-    val InputFile = properties.getProperty("inputFile")
-    val OutputDir = properties.getProperty("outputDir")
+    val InputFile = properties.getProperty("wordCountInputFile")
+    val OutputDir = properties.getProperty("wordCountOutputDir")
 
     println(
       if (File(OutputDir).deleteRecursively()) {

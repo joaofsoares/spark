@@ -1,24 +1,42 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 import org.apache.spark.sql.SparkSession
+
+import scala.reflect.io.File
 
 object SparkJson extends App {
 
-  val sparkSession = SparkSession.builder.
-    master("local")
-    .appName("Spark Json")
-    .getOrCreate()
+  if (File("config.properties").exists) {
 
-  val sqlContext = sparkSession.sqlContext
+    val input = new FileInputStream("config.properties")
+    val properties = new Properties()
 
-  val customers = sqlContext.read.json("data/customers.json")
+    properties.load(input)
 
-  customers.createOrReplaceTempView("customers")
+    val sparkSession = SparkSession.builder.
+      master("local")
+      .appName("Spark Json")
+      .getOrCreate()
 
-  customers.show
+    val sqlContext = sparkSession.sqlContext
 
-  val firstNameCityState = sqlContext.sql("select first_name, address.city, address.state from customers")
+    val customers = sqlContext.read.json(properties.getProperty("jsonFile"))
 
-  firstNameCityState.show
+    customers.createOrReplaceTempView("customers")
 
-  sparkSession.stop()
+    customers.show
+
+    val firstNameCityState = sqlContext.sql("select first_name, address.city, address.state from customers")
+
+    firstNameCityState.show
+
+    sparkSession.stop()
+
+  } else {
+
+    println("config.properties file not found.")
+
+  }
 
 }

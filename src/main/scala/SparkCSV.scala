@@ -1,24 +1,44 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 import org.apache.spark.sql.SparkSession
+
+import scala.reflect.io.File
 
 object SparkCSV extends App {
 
-  val sparkSession = SparkSession.builder.
-    master("local")
-    .appName("Spark CSV")
-    .getOrCreate()
+  if (File("config.properties").exists) {
 
-  val sqlContext = sparkSession.sqlContext
+    val input = new FileInputStream("config.properties")
+    val properties = new Properties()
 
-  val babyNames = sqlContext.read
-    .format("com.databricks.spark.csv")
-    .option("header", "true")
-    .option("inferSchema", "true")
-    .load("data/baby_names_2007.csv")
+    properties.load(input)
 
-  babyNames.createOrReplaceTempView("names")
+    val sparkSession = SparkSession.builder.
+      master("local")
+      .appName("Spark CSV")
+      .getOrCreate()
 
-  val distinctYears = sqlContext.sql("select distinct Year from names")
+    val sqlContext = sparkSession.sqlContext
 
-  distinctYears.show
+    val babyNames = sqlContext.read
+      .format("com.databricks.spark.csv")
+      .option("header", "true")
+      .option("inferSchema", "true")
+      .load(properties.getProperty("csvFile"))
+
+    babyNames.createOrReplaceTempView("names")
+
+    val distinctYears = sqlContext.sql("select distinct Year from names")
+
+    distinctYears.show
+
+    sparkSession.stop()
+
+  } else {
+
+    println("config.properties file not found.")
+
+  }
 
 }
