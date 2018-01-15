@@ -3,58 +3,70 @@ import java.util.Properties
 
 import org.apache.spark.sql.SparkSession
 
+import scala.reflect.io.File
+
 object SparkMySQL extends App {
 
-  val input = new FileInputStream("config.properties")
-  val properties = new Properties()
+  if (File("config.properties").exists) {
 
-  properties.load(input)
+    val input = new FileInputStream("config.properties")
+    val properties = new Properties()
 
-  val sparkSession = SparkSession.builder.
-    master("local")
-    .appName("Spark MySQL")
-    .getOrCreate()
+    properties.load(input)
 
-  val userData = sparkSession.read.format("jdbc")
-    .option("url", "jdbc:mysql://localhost/" + properties.getProperty("database"))
-    .option("driver", "com.mysql.cj.jdbc.Driver")
-    .option("dbtable", "users")
-    .option("user", properties.getProperty("username"))
-    .option("password", properties.getProperty("password"))
-    .load()
+    val sparkSession = SparkSession.builder.
+      master("local")
+      .appName("Spark MySQL")
+      .getOrCreate()
 
-  val departmentData = sparkSession.read.format("jdbc")
-    .option("url", "jdbc:mysql://localhost/" + properties.getProperty("database"))
-    .option("driver", "com.mysql.cj.jdbc.Driver")
-    .option("dbtable", "department")
-    .option("user", properties.getProperty("username"))
-    .option("password", properties.getProperty("password"))
-    .load()
+    val sqlContext = sparkSession.sqlContext
 
-  input.close()
+    val userData = sqlContext.read.format("jdbc")
+      .option("url", "jdbc:mysql://localhost/" + properties.getProperty("database"))
+      .option("driver", "com.mysql.cj.jdbc.Driver")
+      .option("dbtable", "users")
+      .option("user", properties.getProperty("username"))
+      .option("password", properties.getProperty("password"))
+      .load()
 
-  // Single Table
+    val departmentData = sqlContext.read.format("jdbc")
+      .option("url", "jdbc:mysql://localhost/" + properties.getProperty("database"))
+      .option("driver", "com.mysql.cj.jdbc.Driver")
+      .option("dbtable", "department")
+      .option("user", properties.getProperty("username"))
+      .option("password", properties.getProperty("password"))
+      .load()
 
-  userData.show
+    input.close()
 
-  userData.createOrReplaceTempView("users")
+    // Single Table
 
-  userData.select("id").show
+    userData.show
 
-  userData.filter(userData("username").endsWith("1")).show
+    userData.createOrReplaceTempView("users")
 
-  // Join - Multi Table
+    userData.select("id").show
 
-  departmentData.show
+    userData.filter(userData("username").endsWith("1")).show
 
-  departmentData.createOrReplaceTempView("department")
+    // Join - Multi Table
 
-  val joinTable = sparkSession.sqlContext.sql("select u.id, u.username, d.label from users u join department d on u.id = d.id ")
+    departmentData.show
 
-  joinTable.filter(joinTable("username").endsWith("1")).show
+    departmentData.createOrReplaceTempView("department")
 
-  joinTable.show
+    val joinTable = sqlContext.sql("select u.id, u.username, d.label from users u join department d on u.id = d.id ")
 
-  sparkSession.stop()
+    joinTable.filter(joinTable("username").endsWith("1")).show
+
+    joinTable.show
+
+    sparkSession.stop()
+
+  } else {
+
+    println("config.properties file not found.")
+
+  }
 
 }
