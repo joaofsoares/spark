@@ -15,6 +15,10 @@ SBT version = 1.1.0
  - SparkPi
  
  - SparkMySQL
+
+ - SparkJson
+
+ - SparkCSV
  
 **SBT Compile**
 
@@ -58,3 +62,7 @@ SBT version = 1.1.0
  `spark/bin $ ./spark-submit --class "SparkWordCount" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
  
  `spark/bin $ ./spark-submit --class "SparkMySQL" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
+
+ `spark/bin $ ./spark-submit --class "SparkJson" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
+
+ `spark/bin $ ./spark-submit --class "SparkCSV" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
