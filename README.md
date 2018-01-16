@@ -19,6 +19,8 @@ SBT version = 1.1.0
  - SparkJson
 
  - SparkCSV
+
+ - Spark Streaming
  
 **SBT Compile**
 
@@ -70,3 +72,5 @@ SBT version = 1.1.0
  `spark/bin $ ./spark-submit --class "SparkJson" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
 
  `spark/bin $ ./spark-submit --class "SparkCSV" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
+
+ `spark/bin $ ./spark-submit --class "SparkStreamingNetworkWordCount" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar` localhost 9999

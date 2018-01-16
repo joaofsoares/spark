@@ -19,9 +19,7 @@ object SparkMySQL extends App {
       .appName("Spark MySQL")
       .getOrCreate()
 
-    val sqlContext = sparkSession.sqlContext
-
-    val userData = sqlContext.read.format("jdbc")
+    val userData = sparkSession.sqlContext.read.format("jdbc")
       .option("url", "jdbc:mysql://localhost/" + properties.getProperty("database"))
       .option("driver", "com.mysql.cj.jdbc.Driver")
       .option("dbtable", "users")
@@ -29,7 +27,7 @@ object SparkMySQL extends App {
       .option("password", properties.getProperty("password"))
       .load()
 
-    val departmentData = sqlContext.read.format("jdbc")
+    val departmentData = sparkSession.sqlContext.read.format("jdbc")
       .option("url", "jdbc:mysql://localhost/" + properties.getProperty("database"))
       .option("driver", "com.mysql.cj.jdbc.Driver")
       .option("dbtable", "department")
@@ -55,7 +53,7 @@ object SparkMySQL extends App {
 
     departmentData.createOrReplaceTempView("department")
 
-    val joinTable = sqlContext.sql("select u.id, u.username, d.label from users u join department d on u.id = d.id ")
+    val joinTable = sparkSession.sqlContext.sql("select u.id, u.username, d.label from users u join department d on u.id = d.id ")
 
     joinTable.filter(joinTable("username").endsWith("1")).show
 

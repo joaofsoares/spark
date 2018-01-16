@@ -19,15 +19,13 @@ object SparkJson extends App {
       .appName("Spark Json")
       .getOrCreate()
 
-    val sqlContext = sparkSession.sqlContext
-
-    val customers = sqlContext.read.json(properties.getProperty("jsonFile"))
+    val customers = sparkSession.sqlContext.read.json(properties.getProperty("jsonFile"))
 
     customers.createOrReplaceTempView("customers")
 
     customers.show
 
-    val firstNameCityState = sqlContext.sql("select first_name, address.city, address.state from customers")
+    val firstNameCityState = sparkSession.sqlContext.sql("select first_name, address.city, address.state from customers")
 
     firstNameCityState.show
 
