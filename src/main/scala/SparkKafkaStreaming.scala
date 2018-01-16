@@ -10,7 +10,10 @@ object SparkKafkaStreaming extends App {
 
   val ssc = new StreamingContext(conf, Seconds(10))
 
-  val kafkaStream = KafkaUtils.createStream(ssc, "localhost:2181", "spark-streaming-consumer-group", Map("spark-topic" -> 5))
+  val kafkaStream = KafkaUtils.createStream(ssc,
+    "localhost:2181",
+    "spark-streaming-consumer-group",
+    Map("spark-topic" -> 5))
 
   kafkaStream.print()
 

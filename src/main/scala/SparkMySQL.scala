@@ -53,7 +53,8 @@ object SparkMySQL extends App {
 
     departmentData.createOrReplaceTempView("department")
 
-    val joinTable = sparkSession.sqlContext.sql("select u.id, u.username, d.label from users u join department d on u.id = d.id ")
+    val joinTable = sparkSession.sqlContext.sql("select u.id, u.username, d.label " +
+      "from users u join department d on u.id = d.id ")
 
     joinTable.filter(joinTable("username").endsWith("1")).show
 

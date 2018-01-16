@@ -4,7 +4,9 @@ import scala.math.random
 
 object SparkPi extends App {
 
-  val conf = new SparkConf().setAppName("Spark Pi")
+  val conf = new SparkConf()
+    .setMaster("local")
+    .setAppName("Spark Pi")
   val spark = new SparkContext(conf)
 
   val slices = if (args.length > 0) args(0).toInt else 2
