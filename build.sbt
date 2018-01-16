@@ -9,3 +9,8 @@ libraryDependencies ++= Seq("org.apache.spark" %% "spark-core" % "2.2.1",
   "org.apache.spark" %% "spark-streaming" % "2.2.1" % "provided",
   "org.apache.spark" %% "spark-streaming-kafka" % "1.6.3",
   "mysql" % "mysql-connector-java" % "6.0.6")
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs@_*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}

@@ -25,7 +25,8 @@ object SparkJson extends App {
 
     customers.show
 
-    val firstNameCityState = sparkSession.sqlContext.sql("select first_name, address.city, address.state from customers")
+    val firstNameCityState = sparkSession.sqlContext.sql("select first_name, address.city, address.state " +
+      "from customers")
 
     firstNameCityState.show
 
