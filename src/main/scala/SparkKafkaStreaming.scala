@@ -1,4 +1,5 @@
 import org.apache.spark.SparkConf
+import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
@@ -13,7 +14,8 @@ object SparkKafkaStreaming extends App {
   val kafkaStream = KafkaUtils.createStream(ssc,
     "localhost:2181",
     "spark-streaming-consumer-group",
-    Map("spark-topic" -> 5))
+    Map("spark-topic" -> 5),
+    StorageLevel.MEMORY_AND_DISK_SER)
 
   kafkaStream.print()
 
