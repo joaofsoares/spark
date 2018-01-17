@@ -8,14 +8,19 @@ object SparkKafkaStreaming extends App {
     .setMaster("local")
     .setAppName("Spark Kafka Streaming")
 
-  val ssc = new StreamingContext(conf, Seconds(1))
+  val ssc = new StreamingContext(conf, Seconds(10))
 
   val kafkaStream = KafkaUtils.createStream(ssc,
     "localhost:2181",
     "spark-streaming-consumer-group",
     Map("spark-topic" -> 5))
 
-  kafkaStream.print()
+  kafkaStream
+    .map(_._2)
+    .flatMap(_.split(" "))
+    .map(word => (word, 1))
+    .reduceByKey(_ + _)
+    .print()
 
   ssc.start()
   ssc.awaitTermination()
