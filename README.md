@@ -98,3 +98,7 @@ SBT version = 1.1.0
  **List Topics**
 
  `./kafka-topics.sh --list --zookeeper localhost:2181`
+
+ **Producer**
+
+ `./kafka-console-producer.sh --broker-list localhost:9092 --topic spark-topic`
