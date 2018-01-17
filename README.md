@@ -83,18 +83,18 @@ SBT version = 1.1.0
 
 # Kafka Server
 
- **zookeeper**
+ **Zookeeper**
 
  `./zookeeper-server-start.sh ../config/zookeeper.propeties`
 
- **kafka server**
+ **Kafka Server**
 
  `./kafka-server-start.sh ../config/server.properties`
 
- **create topic**
+ **Create Topic**
 
  `./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic spark-topic`
 
- **list topics**
+ **List Topics**
 
  `./kafka-topics.sh --list --zookeeper localhost:2181`

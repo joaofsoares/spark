@@ -15,6 +15,9 @@ object SparkKafkaStreaming extends App {
     "spark-streaming-consumer-group",
     Map("spark-topic" -> 1))
 
+  // print input
+  // kafkaStream.map(_._2).print()
+
   kafkaStream
     .map(_._2)
     .flatMap(_.split(" "))
