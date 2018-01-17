@@ -14,6 +14,7 @@ object SparkStreamingNetworkWordCount extends App {
     .setAppName("Spark Streaming Network Word Count")
   val ssc = new StreamingContext(sparkConf, Seconds(1))
 
+  //  val lines = ssc.socketTextStream("localhost", 9999)
   val lines = ssc.socketTextStream(args(0), args(1).toInt, StorageLevel.MEMORY_AND_DISK_SER)
 
   val words = lines.flatMap(_.split(" "))
