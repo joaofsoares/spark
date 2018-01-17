@@ -24,7 +24,7 @@ SBT version = 1.1.0
 
  - Spark Kafka Streaming
  
-**SBT Compile**
+# SBT Compile
 
 `sbt clean`
 
@@ -33,7 +33,7 @@ SBT version = 1.1.0
 `sbt package` 
  
  
-**Spark Cluster**
+# Spark Cluster
 
   **Master**
 
@@ -75,4 +75,26 @@ SBT version = 1.1.0
 
  `spark/bin $ ./spark-submit --class "SparkCSV" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
 
+ use Nmap (the Network Mapper) command `nc -lk 9999`
  `spark/bin $ ./spark-submit --class "SparkStreamingNetworkWordCount" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar localhost 9999`
+ write in Nmap terminal
+
+ `spark/bin $ ./spark-submit --class "SparkKafkaStreaming" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
+
+# Kafka Server
+
+ **zookeeper**
+
+ `./zookeeper-server-start.sh ../config/zookeeper.propeties`
+
+ **kafka server**
+
+ `./kafka-server-start.sh ../config/server.properties`
+
+ **create topic**
+
+ `./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic spark-topic`
+
+ **list topics**
+
+ `./kafka-topics.sh --list --zookeeper localhost:2181`

@@ -5,7 +5,7 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
 object SparkKafkaStreaming extends App {
 
   val conf = new SparkConf()
-    .setMaster("local")
+    .setMaster("local[2]")
     .setAppName("Spark Kafka Streaming")
 
   val ssc = new StreamingContext(conf, Seconds(10))
@@ -13,7 +13,7 @@ object SparkKafkaStreaming extends App {
   val kafkaStream = KafkaUtils.createStream(ssc,
     "localhost:2181",
     "spark-streaming-consumer-group",
-    Map("spark-topic" -> 5))
+    Map("spark-topic" -> 1))
 
   kafkaStream
     .map(_._2)

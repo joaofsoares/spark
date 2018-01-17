@@ -5,7 +5,7 @@ import scala.math.random
 object SparkPi extends App {
 
   val conf = new SparkConf()
-    .setMaster("local")
+    .setMaster("local[2]")
     .setAppName("Spark Pi")
   val spark = new SparkContext(conf)
 

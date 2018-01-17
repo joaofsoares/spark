@@ -15,7 +15,7 @@ object SparkMySQL extends App {
     properties.load(input)
 
     val sparkSession = SparkSession.builder.
-      master("local")
+      master("local[2]")
       .appName("Spark MySQL")
       .getOrCreate()
 

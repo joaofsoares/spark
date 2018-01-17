@@ -26,7 +26,7 @@ object SparkWordCount extends App {
 
     val sparkConf = new SparkConf()
       .setAppName("Spark Word Count")
-      .setMaster("local")
+      .setMaster("local[2]")
     val sc = new SparkContext(sparkConf)
 
     // this block is used for big files

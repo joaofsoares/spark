@@ -10,7 +10,7 @@ object SparkStreamingNetworkWordCount extends App {
   }
 
   val sparkConf = new SparkConf()
-    .setMaster("local")
+    .setMaster("local[2]")
     .setAppName("Spark Streaming Network Word Count")
   val ssc = new StreamingContext(sparkConf, Seconds(1))
 
