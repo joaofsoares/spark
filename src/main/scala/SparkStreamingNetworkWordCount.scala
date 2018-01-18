@@ -4,9 +4,10 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 object SparkStreamingNetworkWordCount extends App {
 
-  if (args.length < 2) {
-    System.err.println("Usage: Spark Streaming Network Word Count <hostname> <port>")
-    System.exit(1)
+  val (hostname, port) = if (args.length < 2) {
+    ("localhost", "9999")
+  } else {
+    (args(0), args(1))
   }
 
   val sparkConf = new SparkConf()
@@ -15,7 +16,7 @@ object SparkStreamingNetworkWordCount extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(1))
 
   //  val lines = ssc.socketTextStream("localhost", 9999)
-  val lines = ssc.socketTextStream(args(0), args(1).toInt, StorageLevel.MEMORY_AND_DISK_SER)
+  val lines = ssc.socketTextStream(hostname, port.toInt, StorageLevel.MEMORY_AND_DISK_SER)
 
   lines
     .flatMap(_.split(" "))
