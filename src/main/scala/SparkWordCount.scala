@@ -40,6 +40,12 @@ object SparkWordCount extends App {
       .reduceByKey(_ + _)
       .saveAsTextFile(OutputDir)
 
+    // other way to do the same thing
+    //    sc.textFile(InputFile)
+    //      .flatMap(line => line.split(" "))
+    //      .countByValue()
+    //      .saveAsTextFile(OutputDir)
+
     sc.stop()
 
   } else {
