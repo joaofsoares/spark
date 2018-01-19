@@ -5,3 +5,4 @@ target/
 spark-warehouse/
 config.properties
 out/
+lib/
