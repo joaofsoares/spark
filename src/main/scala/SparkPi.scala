@@ -1,13 +1,10 @@
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.SparkContext
 
 import scala.math.random
 
 object SparkPi extends App {
 
-  val conf = new SparkConf()
-    .setMaster("local[2]")
-    .setAppName("Spark Pi")
-  val spark = new SparkContext(conf)
+  val spark = new SparkContext("local[2]", "Spark Pi")
 
   val slices = if (args.length > 0) args(0).toInt else 2
   val n = 100000 * slices
