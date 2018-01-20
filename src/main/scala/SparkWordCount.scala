@@ -35,14 +35,14 @@ object SparkWordCount extends App {
     // sc.textFile(InputFile, n)
 
     sc.textFile(InputFile)
-      .flatMap(line => line.split(" "))
+      .flatMap(line => line.split("\\W+"))
       .map(word => (word, 1))
       .reduceByKey(_ + _)
       .saveAsTextFile(OutputDir)
 
     // other way to do the same thing
     //    sc.textFile(InputFile)
-    //      .flatMap(line => line.split(" "))
+    //      .flatMap(line => line.split("\\W+"))
     //      .countByValue()
     //      .saveAsTextFile(OutputDir)
 
