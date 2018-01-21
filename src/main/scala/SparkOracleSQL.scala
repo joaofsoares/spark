@@ -14,8 +14,7 @@ object SparkOracleSQL extends App {
 
     properties.load(input)
 
-    val sparkSession = SparkSession.builder.
-      master("local[2]")
+    val sparkSession = SparkSession.builder
       .appName("Spark Oracle SQL")
       .getOrCreate()
 
