@@ -14,11 +14,11 @@ object SparkCSV extends App {
 
     properties.load(input)
 
-    val sparkSession = SparkSession.builder
+    val spark = SparkSession.builder
       .appName("Spark CSV")
       .getOrCreate()
 
-    val babyNames = sparkSession.sqlContext.read
+    val babyNames = spark.sqlContext.read
       .format("com.databricks.spark.csv")
       .option("header", "true")
       .option("inferSchema", "true")
@@ -26,11 +26,11 @@ object SparkCSV extends App {
 
     babyNames.createOrReplaceTempView("names")
 
-    val distinctYears = sparkSession.sqlContext.sql("select distinct Year from names")
+    val distinctYears = spark.sql("select distinct Year from names")
 
     distinctYears.show
 
-    sparkSession.stop()
+    spark.stop()
 
   } else {
 
