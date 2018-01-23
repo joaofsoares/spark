@@ -18,7 +18,7 @@ object SparkKafkaStreaming extends App {
   kafkaStream
     .map(_._2)
     .flatMap(_.split(" "))
-    .map(word => (word, 1))
+    .map((_, 1))
     .reduceByKey(_ + _)
     .print()
 

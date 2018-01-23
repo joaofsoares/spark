@@ -34,7 +34,7 @@ object SparkWordCount extends App {
 
     sc.textFile(InputFile)
       .flatMap(line => line.split("\\W+"))
-      .map(word => (word, 1))
+      .map((_, 1))
       .reduceByKey(_ + _)
       .saveAsTextFile(OutputDir)
 

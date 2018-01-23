@@ -27,8 +27,8 @@ object SparkWordCountSQL extends App {
     import spark.implicits._
 
     val wordDS = spark.sqlContext.read.textFile(InputFile)
-      .flatMap(lines => lines.split("\\s+"))
-      .map(word => Word(word))
+      .flatMap(_.split("\\s+"))
+      .map(Word)
 
     val result = wordDS.groupBy("value").count().orderBy(desc("count")).cache()
 

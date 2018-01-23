@@ -18,7 +18,7 @@ object SparkStreamingNetworkWordCount extends App {
 
   lines
     .flatMap(_.split(" "))
-    .map(x => (x, 1))
+    .map((_, 1))
     .reduceByKey(_ + _)
     .print()
 
