@@ -1,4 +1,8 @@
 .idea/
+.classpath
+.project
+.settings/
+.cache-main
 project/project/
 project/target/
 target/
@@ -6,3 +10,4 @@ spark-warehouse/
 config.properties
 out/
 lib/
+/bin/
