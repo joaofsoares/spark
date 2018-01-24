@@ -1,7 +1,7 @@
-import org.apache.log4j.{Level, Logger}
+import org.apache.log4j.{ Level, Logger }
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka.KafkaUtils
-import org.apache.spark.streaming.{Seconds, StreamingContext}
+import org.apache.spark.streaming.{ Seconds, StreamingContext }
 
 object SparkKafkaStreaming extends App {
 
@@ -10,7 +10,8 @@ object SparkKafkaStreaming extends App {
   val sparkConf = new SparkConf().setAppName("Spark Kafka Streaming")
   val ssc = new StreamingContext(sparkConf, Seconds(10))
 
-  val kafkaStream = KafkaUtils.createStream(ssc,
+  val kafkaStream = KafkaUtils.createStream(
+    ssc,
     "localhost:2181",
     "spark-streaming-consumer-group",
     Map("spark-topic" -> 1))
@@ -20,7 +21,7 @@ object SparkKafkaStreaming extends App {
 
   kafkaStream
     .map(_._2)
-    .flatMap(_.split(" "))
+    .flatMap(_.split("\\W+"))
     .map((_, 1))
     .reduceByKey(_ + _)
     .print()
