@@ -1,11 +1,14 @@
 import java.io.FileInputStream
 import java.util.Properties
 
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 
 import scala.reflect.io.File
 
 object SparkCSVSQL extends App {
+
+  Logger.getLogger("org").setLevel(Level.ERROR)
 
   case class Baby(year: String, firstName: String, county: String, sex: String, count: String)
 

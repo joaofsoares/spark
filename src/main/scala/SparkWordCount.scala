@@ -1,11 +1,14 @@
 import java.io.FileInputStream
 import java.util.Properties
 
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.{SparkConf, SparkContext}
 
 import scala.reflect.io.File
 
 object SparkWordCount extends App {
+
+  Logger.getLogger("org").setLevel(Level.ERROR)
 
   if (File("config.properties").exists) {
 

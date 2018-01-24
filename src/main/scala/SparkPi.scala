@@ -1,8 +1,11 @@
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.{SparkConf, SparkContext}
 
 import scala.math.random
 
 object SparkPi extends App {
+
+  Logger.getLogger("org").setLevel(Level.ERROR)
 
   val sparkConf = new SparkConf().setAppName("Spark Pi")
   val spark = new SparkContext(sparkConf)

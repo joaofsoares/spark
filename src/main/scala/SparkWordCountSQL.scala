@@ -1,12 +1,15 @@
 import java.io.FileInputStream
 import java.util.Properties
 
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
 import scala.reflect.io.File
 
 object SparkWordCountSQL extends App {
+
+  Logger.getLogger("org").setLevel(Level.ERROR)
 
   case class Word(value: String)
 

@@ -1,17 +1,18 @@
 import java.io.FileInputStream
 import java.util.Properties
 
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 
 import scala.reflect.io.File
 
 object SparkJsonSQL extends App {
 
+  Logger.getLogger("org").setLevel(Level.ERROR)
+
   case class Address(street: String, city: String, state: String, zip: String)
 
   case class Customer(first_name: String, last_name: String, address: Address)
-
-  case class Test(first_name: String, last_name: String)
 
   def getAddress(address: String): Address = {
     val splitAddress = address.split(",")

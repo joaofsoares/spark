@@ -1,8 +1,11 @@
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 object SparkKafkaStreaming extends App {
+
+  Logger.getLogger("org").setLevel(Level.ERROR)
 
   val sparkConf = new SparkConf().setAppName("Spark Kafka Streaming")
   val ssc = new StreamingContext(sparkConf, Seconds(10))

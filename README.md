@@ -1,12 +1,12 @@
 # spark-project
 
-**Spark Project**
+# Spark Project
 
-Spark version = 2.2.1
+**Spark version** = 2.2.1
 
-Scala version = 2.11.12
+**Scala version** = 2.11.12
 
-SBT version = 1.1.0
+**SBT version** = 1.1.0
 
 **Examples:**
 
@@ -21,6 +21,8 @@ SBT version = 1.1.0
  - Spark CSV
 
  - Spark Streaming
+
+ - Spark Structured Streaming
 
  - Spark Kafka Streaming
  
@@ -76,7 +78,8 @@ SBT version = 1.1.0
  `spark/bin $ ./spark-submit --class "SparkCSV" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
 
  use Nmap (the Network Mapper) command `nc -lk 9999`
- `spark/bin $ ./spark-submit --class "SparkStreamingNetworkWordCount" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar localhost 9999`
+ `spark/bin $ ./spark-submit --class "SparkStreaming" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar localhost 9999` or
+ `spark/bin $ ./spark-submit --class "SparkStructuredStreaming" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar localhost 9999`
  write in Nmap terminal
 
  `spark/bin $ ./spark-submit --class "SparkKafkaStreaming" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`

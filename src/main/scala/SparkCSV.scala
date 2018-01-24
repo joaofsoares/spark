@@ -1,11 +1,14 @@
 import java.io.FileInputStream
 import java.util.Properties
 
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 
 import scala.reflect.io.File
 
 object SparkCSV extends App {
+
+  Logger.getLogger("org").setLevel(Level.ERROR)
 
   if (File("config.properties").exists) {
 
