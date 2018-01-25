@@ -30,7 +30,7 @@ object SparkCSVSQL extends App {
       .map(row => Baby(row(0).toString, row(1).toString, row(2).toString, row(3).toString, row(4).toString))
       .cache()
 
-    babyNamesDS.select(babyNamesDS("year")).orderBy("year").distinct().show()
+    babyNamesDS.select(babyNamesDS("year")).orderBy("year").distinct.show()
 
     spark.stop()
 

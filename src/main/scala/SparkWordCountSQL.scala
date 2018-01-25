@@ -33,7 +33,7 @@ object SparkWordCountSQL extends App {
       .flatMap(_.split("\\W+"))
       .map(Word)
 
-    val result = wordDS.groupBy("value").count().orderBy(desc("count")).cache()
+    val result = wordDS.groupBy("value").count.orderBy(desc("count")).cache()
 
     result.show()
 

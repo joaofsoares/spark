@@ -1,7 +1,7 @@
 import java.io.FileInputStream
 import java.util.Properties
 
-import org.apache.log4j.{Level, Logger}
+import org.apache.log4j.{ Level, Logger }
 import org.apache.spark.sql.SparkSession
 
 import scala.reflect.io.File
@@ -25,12 +25,12 @@ object SparkJson extends App {
 
     customers.createOrReplaceTempView("customers")
 
-    customers.show
+    customers.show()
 
     val firstNameCityState = sparkSession.sqlContext.sql("select first_name, address.city, address.state " +
       "from customers")
 
-    firstNameCityState.show
+    firstNameCityState.show()
 
     sparkSession.stop()
 
