@@ -19,6 +19,7 @@ object SparkJson extends App {
 
     val sparkSession = SparkSession.builder
       .appName("Spark Json")
+      .master("local[*]")
       .getOrCreate()
 
     val customers = sparkSession.sqlContext.read.json(properties.getProperty("jsonFile"))

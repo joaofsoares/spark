@@ -1,5 +1,5 @@
-import org.apache.log4j.{Level, Logger}
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.log4j.{ Level, Logger }
+import org.apache.spark.{ SparkConf, SparkContext }
 
 import scala.math.random
 
@@ -7,7 +7,7 @@ object SparkPi extends App {
 
   Logger.getLogger("org").setLevel(Level.ERROR)
 
-  val sparkConf = new SparkConf().setAppName("Spark Pi")
+  val sparkConf = new SparkConf().setAppName("Spark Pi").setMaster("local[*]")
   val spark = new SparkContext(sparkConf)
 
   val slices = if (args.length > 0) args(0).toInt else 2

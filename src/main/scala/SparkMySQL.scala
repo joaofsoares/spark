@@ -1,7 +1,7 @@
 import java.io.FileInputStream
 import java.util.Properties
 
-import org.apache.log4j.{Level, Logger}
+import org.apache.log4j.{ Level, Logger }
 import org.apache.spark.sql.SparkSession
 
 import scala.reflect.io.File
@@ -19,6 +19,7 @@ object SparkMySQL extends App {
 
     val sparkSession = SparkSession.builder
       .appName("Spark MySQL")
+      .master("local[*]")
       .getOrCreate()
 
     val userData = sparkSession.sqlContext.read.format("jdbc")

@@ -7,7 +7,7 @@ object SparkKafkaStreaming extends App {
 
   Logger.getLogger("org").setLevel(Level.ERROR)
 
-  val sparkConf = new SparkConf().setAppName("Spark Kafka Streaming")
+  val sparkConf = new SparkConf().setAppName("Spark Kafka Streaming").setMaster("local[2]")
   val ssc = new StreamingContext(sparkConf, Seconds(10))
 
   val kafkaStream = KafkaUtils.createStream(

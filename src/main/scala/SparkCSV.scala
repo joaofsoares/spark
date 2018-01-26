@@ -19,6 +19,7 @@ object SparkCSV extends App {
 
     val spark = SparkSession.builder
       .appName("Spark CSV")
+      .master("local[*]")
       .getOrCreate()
 
     val babyNames = spark.sqlContext.read

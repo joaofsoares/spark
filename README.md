@@ -8,9 +8,9 @@
 
 **Examples:**
 
- - Word Count
+ - Spark Word Count
  
- - SparkPi
+ - Spark Pi
  
  - Spark MySQL
 

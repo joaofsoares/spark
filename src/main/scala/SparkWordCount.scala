@@ -1,8 +1,8 @@
 import java.io.FileInputStream
 import java.util.Properties
 
-import org.apache.log4j.{Level, Logger}
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.log4j.{ Level, Logger }
+import org.apache.spark.{ SparkConf, SparkContext }
 
 import scala.reflect.io.File
 
@@ -27,7 +27,7 @@ object SparkWordCount extends App {
         "Loading... ready."
       })
 
-    val sparkConf = new SparkConf().setAppName("Spark Word Count")
+    val sparkConf = new SparkConf().setAppName("Spark Word Count").setMaster("local[*]")
     val sc = new SparkContext(sparkConf)
 
     // this block is used for big files
