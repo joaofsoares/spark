@@ -19,6 +19,8 @@
  - Spark CSV
 
  - Spark Streaming
+ 
+ - Spark Streaming Twitter
 
  - Spark Structured Streaming
 
@@ -108,3 +110,7 @@
  **Producer**
 
  `./kafka-console-producer.sh --broker-list localhost:9092 --topic spark-topic`
+ 
+ **Consumer**
+ 
+ `/kafka-console-consumer.sh --bootstrap-server localhost:9092 --from-beginning --topic spark-topic`
