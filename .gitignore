@@ -11,3 +11,4 @@ config.properties
 out/
 lib/
 /bin/
+checkpoint/

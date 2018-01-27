@@ -22,7 +22,7 @@ object SparkStreamingTwitter extends App {
 
   val sparkConf = new SparkConf().setAppName("Spark Streaming Twitter").setMaster("local[*]")
 
-  val sparkStreaming = new StreamingContext(sparkConf, Seconds(10))
+  val sparkStreaming = new StreamingContext(sparkConf, Seconds(1))
 
   val twitterStream = TwitterUtils.createStream(sparkStreaming, None)
 
@@ -32,18 +32,15 @@ object SparkStreamingTwitter extends App {
 
   val hashTags = eachWord.filter(_.startsWith("#"))
 
-  val hashCount = hashTags.map((_, 1)).reduceByKey(_ + _).cache()
+  val hashTagsKeyValue = hashTags.map((_, 1))
 
-  val flippedHashCount = hashCount.transform(hash => hash.map(x => (x._2, x._1)))
+  val hashCount = hashTagsKeyValue.reduceByKeyAndWindow((x, y) => x + y, (x, y) => x - y, Seconds(300), Seconds(1)).cache()
 
-  val sortedHashCount = flippedHashCount.transform(hash => hash.sortByKey(false))
+  val sortedHashCount = hashCount.transform(rdd => rdd.sortBy(x => x._2, false))
 
-  // this line isn't necessary. it was included just to print a formatted result.
-  val resultHashTags = sortedHashCount.transform(hash => hash.map(x => (x._2, x._1)))
+  sortedHashCount.print()
 
-  // if you will, you can use sortedHashCount.print() instead of
-  resultHashTags.print()
-
+  sparkStreaming.checkpoint("checkpoint")
   sparkStreaming.start()
   sparkStreaming.awaitTermination()
 
