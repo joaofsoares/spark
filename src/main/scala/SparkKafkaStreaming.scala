@@ -31,6 +31,8 @@ object SparkKafkaStreaming extends App {
 
   sortedWordCount.print()
 
+  ssc.checkpoint("checkpoint")
+
   ssc.start()
   ssc.awaitTermination()
 

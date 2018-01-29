@@ -26,6 +26,8 @@ object SparkStreaming extends App {
 
   totalWordCount.print()
 
+  sparkStreaming.checkpoint("checkpoint")
+
   sparkStreaming.start()
   sparkStreaming.awaitTermination()
 
