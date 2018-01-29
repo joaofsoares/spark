@@ -20,6 +20,7 @@ object SparkMySQL extends App {
     val sparkSession = SparkSession.builder
       .appName("Spark MySQL")
       .master("local[*]")
+      .config("spark.sql.streaming.checkpointLocation", "checkpoint")
       .getOrCreate()
 
     val userData = sparkSession.sqlContext.read.format("jdbc")

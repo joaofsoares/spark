@@ -29,6 +29,7 @@ object SparkJsonSQL extends App {
     val spark = SparkSession.builder
       .appName("Spark Json")
       .master("local[*]")
+      .config("spark.sql.streaming.checkpointLocation", "checkpoint")
       .getOrCreate()
 
     import spark.implicits._

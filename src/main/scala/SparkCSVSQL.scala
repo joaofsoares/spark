@@ -22,6 +22,7 @@ object SparkCSVSQL extends App {
     val spark = SparkSession.builder
       .appName("Spark CSV")
       .master("local[*]")
+      .config("spark.sql.streaming.checkpointLocation", "checkpoint")
       .getOrCreate()
 
     import spark.implicits._

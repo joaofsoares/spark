@@ -1,7 +1,7 @@
 import java.io.FileInputStream
 import java.util.Properties
 
-import org.apache.log4j.{ Level, Logger }
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
@@ -25,6 +25,7 @@ object SparkWordCountSQL extends App {
     val spark = SparkSession.builder()
       .appName("Spark Word Count SQL")
       .master("local[*]")
+      .config("spark.sql.streaming.checkpointLocation", "checkpoint")
       .getOrCreate()
 
     import spark.implicits._

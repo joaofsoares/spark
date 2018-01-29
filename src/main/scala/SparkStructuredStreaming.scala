@@ -11,7 +11,11 @@ object SparkStructuredStreaming extends App {
     (args(0), args(1))
   }
 
-  val spark = SparkSession.builder.appName("Spark Streaming Structured").master("local[*]").getOrCreate()
+  val spark = SparkSession.builder
+    .appName("Spark Streaming Structured")
+    .master("local[*]")
+    .config("spark.sql.streaming.checkpointLocation", "checkpoint")
+    .getOrCreate()
 
   // reading every file from a directory
   //  val lines = spark.readStream.text("logs")

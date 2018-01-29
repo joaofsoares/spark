@@ -1,7 +1,7 @@
 import java.io.FileInputStream
 import java.util.Properties
 
-import org.apache.log4j.{ Level, Logger }
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 
 import scala.reflect.io.File
@@ -20,6 +20,7 @@ object SparkCSV extends App {
     val spark = SparkSession.builder
       .appName("Spark CSV")
       .master("local[*]")
+      .config("spark.sql.streaming.checkpointLocation", "checkpoint")
       .getOrCreate()
 
     val babyNames = spark.sqlContext.read
