@@ -14,11 +14,17 @@ object SparkStreaming extends App {
 
   val conf = new SparkConf().setAppName("Spark Streaming").setMaster("local[2]")
 
-  val sparkStreaming = new StreamingContext(conf, Seconds(10))
+  val sparkStreaming = new StreamingContext(conf, Seconds(1))
 
   val lines = sparkStreaming.socketTextStream(hostname, port.toInt)
 
-  lines.flatMap(_.split("\\W+")).map((_, 1)).reduceByKey(_ + _).print()
+  val eachWord = lines.flatMap(_.split("\\W+"))
+
+  val wordCount = eachWord.map((_, 1))
+
+  val totalWordCount = wordCount.reduceByKey(_ + _)
+
+  totalWordCount.print()
 
   sparkStreaming.start()
   sparkStreaming.awaitTermination()

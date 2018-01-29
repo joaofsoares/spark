@@ -1,4 +1,4 @@
-import org.apache.log4j.{ Level, Logger }
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 
 object SparkStructuredStreaming extends App {
@@ -13,6 +13,8 @@ object SparkStructuredStreaming extends App {
 
   val spark = SparkSession.builder.appName("Spark Streaming Structured").master("local[*]").getOrCreate()
 
+  // reading every file from a directory
+  //  val lines = spark.readStream.text("logs")
   val lines = spark.readStream.format("socket").option("host", hostname).option("port", port.toInt).load()
 
   import spark.implicits._

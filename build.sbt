@@ -6,7 +6,7 @@ scalaVersion := "2.11.12"
 
 libraryDependencies ++= Seq("org.apache.spark" %% "spark-core" % "2.2.1",
   "org.apache.spark" %% "spark-sql" % "2.2.1",
-  "org.apache.spark" %% "spark-streaming" % "2.2.1" % "provided",
+  "org.apache.spark" %% "spark-streaming" % "2.2.1",
   "org.apache.spark" %% "spark-streaming-kafka" % "1.6.3",
   "org.apache.spark" %% "spark-streaming-twitter" % "1.6.3",
   "mysql" % "mysql-connector-java" % "6.0.6")

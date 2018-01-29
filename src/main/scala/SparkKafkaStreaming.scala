@@ -19,10 +19,6 @@ object SparkKafkaStreaming extends App {
 
   val kafkaStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParameters, topics)
 
-  // print input
-  // val input = kafkaStream.map(_._2)
-  // input.print()
-
   val input = kafkaStream.map(_._2)
 
   val eachWord = input.flatMap(_.split("\\W+"))
