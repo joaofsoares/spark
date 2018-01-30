@@ -13,6 +13,8 @@ object SparkCSVSQL extends App {
     .config("spark.sql.streaming.checkpointLocation", "checkpoint")
     .getOrCreate()
 
+  import spark.implicits._
+
   val babyNamesDS = spark.sqlContext.read.csv("csv_file_path")
     .map(row => Baby(row(0).toString, row(1).toString, row(2).toString, row(3).toString, row(4).toString))
     .cache()
