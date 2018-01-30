@@ -1,15 +1,15 @@
-import com.datastax.spark.connector.{SomeColumns, _}
-import org.apache.log4j.{Level, Logger}
+import com.datastax.spark.connector.{ SomeColumns, _ }
+import org.apache.log4j.{ Level, Logger }
 import org.apache.spark.SparkConf
 import org.apache.spark.storage.StorageLevel
-import org.apache.spark.streaming.{Seconds, StreamingContext}
+import org.apache.spark.streaming.{ Seconds, StreamingContext }
 
 object SparkCassandra extends App {
 
   Logger.getLogger("org").setLevel(Level.ERROR)
 
   val conf = new SparkConf()
-    .setAppName("Spark Streaming")
+    .setAppName("Spark Cassandra")
     .setMaster("local[2]")
     .set("spark.cassandra.connection.host", "127.0.0.1")
 

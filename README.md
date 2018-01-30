@@ -26,6 +26,10 @@
 
  - Spark Kafka Streaming
  
+ - Spark Custom Receiver
+ 
+ - Spark Streaming + Cassadra
+ 
 # SBT Compile
 
 `sbt clean`
@@ -88,6 +92,8 @@
  write in Nmap terminal
 
  `spark/bin $ ./spark-submit --class "SparkKafkaStreaming" --master spark://localhost:7077 ./target/scala-2.11/spark-project_2.11-0.1.jar`
+ 
+ All the examples follow the same instruction. 
 
 # Kafka Server
 
