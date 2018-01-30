@@ -1,11 +1,6 @@
-import java.io.FileInputStream
-import java.util.Properties
-
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
-
-import scala.reflect.io.File
 
 object SparkWordCountSQL extends App {
 
@@ -13,37 +8,22 @@ object SparkWordCountSQL extends App {
 
   case class Word(value: String)
 
-  if (File("config.properties").exists) {
+  val spark = SparkSession.builder()
+    .appName("Spark Word Count SQL")
+    .master("local[*]")
+    .config("spark.sql.streaming.checkpointLocation", "checkpoint")
+    .getOrCreate()
 
-    val input = new FileInputStream("config.properties")
-    val properties = new Properties()
+  import spark.implicits._
 
-    properties.load(input)
+  val wordDS = spark.sqlContext.read.textFile("input_file_path")
+    .flatMap(_.split("\\W+"))
+    .map(Word)
 
-    val InputFile = properties.getProperty("wordCountInputFile")
+  val result = wordDS.groupBy("value").count.orderBy(desc("count")).cache()
 
-    val spark = SparkSession.builder()
-      .appName("Spark Word Count SQL")
-      .master("local[*]")
-      .config("spark.sql.streaming.checkpointLocation", "checkpoint")
-      .getOrCreate()
+  result.show()
 
-    import spark.implicits._
-
-    val wordDS = spark.sqlContext.read.textFile(InputFile)
-      .flatMap(_.split("\\W+"))
-      .map(Word)
-
-    val result = wordDS.groupBy("value").count.orderBy(desc("count")).cache()
-
-    result.show()
-
-    spark.stop()
-
-  } else {
-
-    println("config.properties file not found.")
-
-  }
+  spark.stop()
 
 }

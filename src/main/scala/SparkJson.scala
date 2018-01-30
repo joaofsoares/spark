@@ -1,45 +1,27 @@
-import java.io.FileInputStream
-import java.util.Properties
-
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
-
-import scala.reflect.io.File
 
 object SparkJson extends App {
 
   Logger.getLogger("org").setLevel(Level.ERROR)
 
-  if (File("config.properties").exists) {
+  val sparkSession = SparkSession.builder
+    .appName("Spark Json")
+    .master("local[*]")
+    .config("spark.sql.streaming.checkpointLocation", "checkpoint")
+    .getOrCreate()
 
-    val input = new FileInputStream("config.properties")
-    val properties = new Properties()
+  val customers = sparkSession.sqlContext.read.json("json_file_path")
 
-    properties.load(input)
+  customers.createOrReplaceTempView("customers")
 
-    val sparkSession = SparkSession.builder
-      .appName("Spark Json")
-      .master("local[*]")
-      .config("spark.sql.streaming.checkpointLocation", "checkpoint")
-      .getOrCreate()
+  customers.show()
 
-    val customers = sparkSession.sqlContext.read.json(properties.getProperty("jsonFile"))
+  val firstNameCityState = sparkSession.sqlContext.sql("select first_name, address.city, address.state " +
+    "from customers")
 
-    customers.createOrReplaceTempView("customers")
+  firstNameCityState.show()
 
-    customers.show()
-
-    val firstNameCityState = sparkSession.sqlContext.sql("select first_name, address.city, address.state " +
-      "from customers")
-
-    firstNameCityState.show()
-
-    sparkSession.stop()
-
-  } else {
-
-    println("config.properties file not found.")
-
-  }
+  sparkSession.stop()
 
 }

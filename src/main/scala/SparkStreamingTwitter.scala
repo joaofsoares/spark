@@ -1,11 +1,8 @@
-import org.apache.log4j.Level
-import org.apache.log4j.Logger
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.streaming.twitter.TwitterUtils
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
-import org.apache.spark.streaming.Seconds
-import org.apache.spark.streaming.StreamingContext
+import org.apache.spark.streaming.{Seconds, StreamingContext}
+import org.apache.spark.streaming.twitter.TwitterUtils
+
 import scala.io.Source
 
 object SparkStreamingTwitter extends App {
@@ -36,7 +33,7 @@ object SparkStreamingTwitter extends App {
 
   val hashCount = hashTagsKeyValue.reduceByKeyAndWindow((x, y) => x + y, (x, y) => x - y, Seconds(300), Seconds(1)).cache()
 
-  val sortedHashCount = hashCount.transform(rdd => rdd.sortBy(x => x._2, false))
+  val sortedHashCount = hashCount.transform(rdd => rdd.sortBy(x => x._2, ascending = false))
 
   sortedHashCount.print()
 

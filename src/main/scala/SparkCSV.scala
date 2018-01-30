@@ -1,46 +1,28 @@
-import java.io.FileInputStream
-import java.util.Properties
-
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
-
-import scala.reflect.io.File
 
 object SparkCSV extends App {
 
   Logger.getLogger("org").setLevel(Level.ERROR)
 
-  if (File("config.properties").exists) {
+  val spark = SparkSession.builder
+    .appName("Spark CSV")
+    .master("local[*]")
+    .config("spark.sql.streaming.checkpointLocation", "checkpoint")
+    .getOrCreate()
 
-    val input = new FileInputStream("config.properties")
-    val properties = new Properties()
+  val babyNames = spark.sqlContext.read
+    .format("com.databricks.spark.csv")
+    .option("header", "true")
+    .option("inferSchema", "true")
+    .load("csv_file_path")
 
-    properties.load(input)
+  babyNames.createOrReplaceTempView("names")
 
-    val spark = SparkSession.builder
-      .appName("Spark CSV")
-      .master("local[*]")
-      .config("spark.sql.streaming.checkpointLocation", "checkpoint")
-      .getOrCreate()
+  val distinctYears = spark.sql("select distinct Year from names")
 
-    val babyNames = spark.sqlContext.read
-      .format("com.databricks.spark.csv")
-      .option("header", "true")
-      .option("inferSchema", "true")
-      .load(properties.getProperty("csvFile"))
+  distinctYears.show()
 
-    babyNames.createOrReplaceTempView("names")
-
-    val distinctYears = spark.sql("select distinct Year from names")
-
-    distinctYears.show()
-
-    spark.stop()
-
-  } else {
-
-    println("config.properties file not found.")
-
-  }
+  spark.stop()
 
 }

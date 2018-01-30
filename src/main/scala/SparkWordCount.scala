@@ -1,60 +1,35 @@
-import java.io.FileInputStream
-import java.util.Properties
-
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.{SparkConf, SparkContext}
-
-import scala.reflect.io.File
 
 object SparkWordCount extends App {
 
   Logger.getLogger("org").setLevel(Level.ERROR)
 
-  if (File("config.properties").exists) {
+  val InputFile = "input_file_path"
+  val OutputDir = "output_file_path" + System.currentTimeMillis()
 
-    val input = new FileInputStream("config.properties")
-    val properties = new Properties()
+  val sparkConf = new SparkConf().setAppName("Spark Word Count").setMaster("local[*]")
+  val sc = new SparkContext(sparkConf)
 
-    properties.load(input)
+  // this block is used for big files
+  // val slices = if (args.length > 0) args(0).toInt else 2
+  // val n = 100000 * slices
+  // sc.textFile(InputFile, n)
 
-    val InputFile = properties.getProperty("wordCountInputFile")
-    val OutputDir = properties.getProperty("wordCountOutputDir")
+  val eachWord = sc.textFile(InputFile).flatMap(line => line.split("\\W+"))
 
-    println(
-      if (File(OutputDir).deleteRecursively()) {
-        "Loading... cleaning directory... ready."
-      } else {
-        "Loading... ready."
-      })
+  val wordCount = eachWord.map((_, 1))
 
-    val sparkConf = new SparkConf().setAppName("Spark Word Count").setMaster("local[*]")
-    val sc = new SparkContext(sparkConf)
+  val totalWordCount = wordCount.reduceByKey(_ + _)
 
-    // this block is used for big files
-    // val slices = if (args.length > 0) args(0).toInt else 2
-    // val n = 100000 * slices
-    // sc.textFile(InputFile, n)
+  totalWordCount.saveAsTextFile(OutputDir)
 
-    val eachWord = sc.textFile(InputFile).flatMap(line => line.split("\\W+"))
+  // other way to do the same thing
+  //    sc.textFile(InputFile)
+  //      .flatMap(line => line.split("\\W+"))
+  //      .countByValue()
+  //      .saveAsTextFile(OutputDir)
 
-    val wordCount = eachWord.map((_, 1))
-
-    val totalWordCount = wordCount.reduceByKey(_ + _)
-
-    totalWordCount.saveAsTextFile(OutputDir)
-
-    // other way to do the same thing
-    //    sc.textFile(InputFile)
-    //      .flatMap(line => line.split("\\W+"))
-    //      .countByValue()
-    //      .saveAsTextFile(OutputDir)
-
-    sc.stop()
-
-  } else {
-
-    println("config.properties file not found.")
-
-  }
+  sc.stop()
 
 }
