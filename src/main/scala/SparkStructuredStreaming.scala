@@ -17,11 +17,11 @@ object SparkStructuredStreaming extends App {
     .config("spark.sql.streaming.checkpointLocation", "checkpoint")
     .getOrCreate()
 
+  import spark.implicits._
+
   // reading every file from a directory
   //  val lines = spark.readStream.text("logs")
   val lines = spark.readStream.format("socket").option("host", hostname).option("port", port.toInt).load()
-
-  import spark.implicits._
 
   val wordCounts = lines.as[String].flatMap(_.split("\\W+")).groupBy("value").count()
 

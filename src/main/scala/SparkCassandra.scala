@@ -1,8 +1,8 @@
-import com.datastax.spark.connector.{ SomeColumns, _ }
-import org.apache.log4j.{ Level, Logger }
+import com.datastax.spark.connector._
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkConf
 import org.apache.spark.storage.StorageLevel
-import org.apache.spark.streaming.{ Seconds, StreamingContext }
+import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 object SparkCassandra extends App {
 
