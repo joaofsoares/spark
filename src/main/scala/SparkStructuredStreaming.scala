@@ -5,12 +5,6 @@ object SparkStructuredStreaming extends App {
 
   Logger.getLogger("org").setLevel(Level.ERROR)
 
-  val (hostname, port) = if (args.length < 2) {
-    ("localhost", "9999")
-  } else {
-    (args(0), args(1))
-  }
-
   val spark = SparkSession.builder
     .appName("Spark Streaming Structured")
     .master("local[*]")
@@ -21,7 +15,7 @@ object SparkStructuredStreaming extends App {
 
   // reading every file from a directory
   //  val lines = spark.readStream.text("logs")
-  val lines = spark.readStream.format("socket").option("host", hostname).option("port", port.toInt).load()
+  val lines = spark.readStream.format("socket").option("host", "localhost").option("port", 9999).load()
 
   val wordCounts = lines.as[String].flatMap(_.split("\\W+")).groupBy("value").count()
 

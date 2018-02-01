@@ -17,6 +17,7 @@ object SparkContStructStreaming extends App {
 
   val input = sparkConnection.as[String] // TODO more effective examples
 
+  // TODO if the previous task is incremented probably append most be complete
   val output = input.writeStream.outputMode("append").format("console").start()
 
   output.awaitTermination()

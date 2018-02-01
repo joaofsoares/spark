@@ -6,9 +6,9 @@ object SparkStreaming extends App {
 
   Logger.getLogger("org").setLevel(Level.ERROR)
 
-  val conf = new SparkConf().setAppName("Spark Streaming").setMaster("local[2]")
+  val sparkConf = new SparkConf().setAppName("Spark Streaming").setMaster("local[2]")
 
-  val sparkStreaming = new StreamingContext(conf, Seconds(1))
+  val sparkStreaming = new StreamingContext(sparkConf, Seconds(1))
 
   val lines = sparkStreaming.socketTextStream("localhost", 9999)
 
@@ -18,7 +18,18 @@ object SparkStreaming extends App {
 
   val totalWordCount = wordCount.reduceByKey(_ + _)
 
+  // Print on console
   totalWordCount.print()
+
+  // Save on disk creating a new folder for each bach
+  totalWordCount.saveAsTextFiles("myLocalData/localData")
+
+  // Save on disk creating just a folder and grouping each bach
+  totalWordCount.foreachRDD((rdd, timestamp) => {
+    println("Executing bach at: " + timestamp)
+    rdd.cache()
+    rdd.saveAsTextFile("myLocalData/localData")
+  })
 
   sparkStreaming.checkpoint("checkpoint")
 
