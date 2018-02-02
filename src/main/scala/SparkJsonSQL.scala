@@ -1,4 +1,4 @@
-import org.apache.log4j.{ Level, Logger }
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 
 object SparkJsonSQL extends App {
@@ -29,6 +29,9 @@ object SparkJsonSQL extends App {
   customersDS.show()
 
   customersDS.select(customersDS("first_name"), customersDS("address.street")).show()
+
+  // Save as text file in disk
+  //  customersDS.rdd.saveAsTextFile("output_file_path")
 
   sparkSession.stop()
 

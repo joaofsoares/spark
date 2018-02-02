@@ -25,8 +25,10 @@ object SparkCassandra extends App {
 
   wordCount.foreachRDD((rdd, timestamp) => {
     rdd.cache()
-    println("Writing " + rdd.count() + " rows to Cassandra...")
+    println("Writing " + rdd.count() + " rows to Cassandra... at " + timestamp)
     rdd.saveToCassandra("default", "words", SomeColumns("word", "count"))
+    // Save as text file in disk
+    // rdd.saveAsTextFile("output_file_path")
   })
 
   ssc.checkpoint("checkpoint")

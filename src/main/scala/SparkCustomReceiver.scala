@@ -18,9 +18,16 @@ object SparkCustomReceiver extends App {
 
   val wordCount = tupleWord.reduceByKeyAndWindow((x: Int, y: Int) => x + y, Seconds(300), Seconds(1))
 
-  val sortedWordCount = wordCount.transform(rdd => rdd.sortBy(_._2, ascending = false))
+  val sortedWordCount = wordCount.transform(rdd => rdd.sortBy(_._2, ascending = false)).cache()
 
   sortedWordCount.print()
+
+  // Save as text file in disk
+  //  sortedWordCount.foreachRDD((rdd, timestamp) => {
+  //    rdd.cache()
+  //    println("Saving " + rdd + " at " + timestamp)
+  //    rdd.saveAsTextFile("output_file_path")
+  //  })
 
   ssc.checkpoint("checkpoint")
 

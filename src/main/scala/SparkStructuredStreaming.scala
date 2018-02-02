@@ -17,7 +17,10 @@ object SparkStructuredStreaming extends App {
   //  val lines = spark.readStream.text("logs")
   val lines = sparkSession.readStream.format("socket").option("host", "localhost").option("port", 9999).load()
 
-  val wordCounts = lines.as[String].flatMap(_.split("\\W+")).groupBy("value").count()
+  val wordCounts = lines.as[String].flatMap(_.split("\\W+")).groupBy("value").count().cache()
+
+  // Save as text file in disk
+  //  wordCounts.rdd.saveAsTextFile("output_file_path")
 
   val process = wordCounts.writeStream.outputMode("complete").format("console").start()
 

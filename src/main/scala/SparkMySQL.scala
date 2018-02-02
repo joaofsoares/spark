@@ -58,11 +58,14 @@ object SparkMySQL extends App {
     departmentData.createOrReplaceTempView("department")
 
     val joinTable = sparkSession.sqlContext.sql("select u.id, u.username, d.label " +
-      "from users u join department d on u.id = d.id ")
+      "from users u join department d on u.id = d.id ").cache()
 
     joinTable.filter(joinTable("username").endsWith("1")).show
 
     joinTable.show
+
+    // Save as text file in disk
+    //    joinTable.rdd.saveAsTextFile("output_file_path")
 
     sparkSession.stop()
 

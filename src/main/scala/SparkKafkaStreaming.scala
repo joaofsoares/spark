@@ -27,11 +27,17 @@ object SparkKafkaStreaming extends App {
 
   val totalWordCount = wordCount.reduceByKey(_ + _)
 
-  val sortedWordCount = totalWordCount.transform(rdd => rdd.sortBy(_._2, ascending = false))
+  val sortedWordCount = totalWordCount.transform(rdd => rdd.sortBy(_._2, ascending = false)).cache()
 
   sortedWordCount.print()
 
   ssc.checkpoint("checkpoint")
+
+  // Save as text file in disk
+  //  sortedWordCount.foreachRDD((rdd, timestamp) => {
+  //    println("Saving " + rdd + " at " + timestamp)
+  //    rdd.saveAsTextFile("output_file_path")
+  //  })
 
   ssc.start()
   ssc.awaitTermination()

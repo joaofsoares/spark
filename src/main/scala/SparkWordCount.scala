@@ -19,8 +19,9 @@ object SparkWordCount extends App {
 
   val wordCountRDD = eachWord map ((_, 1)) reduceByKey (_ + _) sortBy(_._2, false) cache()
 
-  for ((word, count) <- wordCountRDD)
-    println(word + " : " + count)
+  wordCountRDD.foreach({
+    case (word, count) => println(word + " : " + count)
+  })
 
   wordCountRDD.saveAsTextFile(OutputDir)
 

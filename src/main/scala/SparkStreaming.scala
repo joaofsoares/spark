@@ -28,7 +28,8 @@ object SparkStreaming extends App {
   totalWordCount.foreachRDD((rdd, timestamp) => {
     println("Executing bach at: " + timestamp)
     rdd.cache()
-    rdd.saveAsTextFile("myLocalData/localData")
+    // Save as text file in disk
+    //    rdd.saveAsTextFile("myLocalData/localData")
   })
 
   sparkStreaming.checkpoint("checkpoint")

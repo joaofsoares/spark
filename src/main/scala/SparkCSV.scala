@@ -19,9 +19,12 @@ object SparkCSV extends App {
 
   babyNames.createOrReplaceTempView("names")
 
-  val distinctYears = sparkSession.sql("select distinct Year from names")
+  val distinctYears = sparkSession.sql("select distinct Year from names").cache()
 
   distinctYears.show()
+
+  // Save as text file in disk
+  //  distinctYears.rdd.saveAsTextFile("output_file_path")
 
   sparkSession.stop()
 

@@ -29,11 +29,14 @@ object SparkOracleSQL extends App {
       .option("dbtable", "population_data")
       .option("user", properties.getProperty("oracleConnectionUsername"))
       .option("password", properties.getProperty("oracleConnectionPassword"))
-      .load()
+      .load().cache()
 
     citiesData.show()
 
     citiesData.select("stfid").show()
+
+    // Save as text file in disk
+    //    citiesData.rdd.saveAsTextFile("output_file_path")
 
     sparkSession.stop()
 

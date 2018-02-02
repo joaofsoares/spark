@@ -18,9 +18,12 @@ object SparkJson extends App {
   customers.show()
 
   val firstNameCityState = sparkSession.sqlContext.sql("select first_name, address.city, address.state " +
-    "from customers")
+    "from customers").cache()
 
   firstNameCityState.show()
+
+  // Save as text file in disk
+  //  firstNameCityState.rdd.saveAsTextFile("output_file_path")
 
   sparkSession.stop()
 

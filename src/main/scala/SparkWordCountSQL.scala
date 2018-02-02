@@ -22,6 +22,8 @@ object SparkWordCountSQL extends App {
 
   val result = wordDS.groupBy("value").count.orderBy(desc("count")).cache()
 
+  result.rdd.saveAsTextFile("output_file_path")
+
   result.show()
 
   sparkSession.stop()

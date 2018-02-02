@@ -21,6 +21,9 @@ object SparkCSVSQL extends App {
 
   babyNamesDS.select(babyNamesDS("year")).orderBy("year").distinct.show()
 
+  // Save as text file in disk
+  //  babyNamesDS.rdd.saveAsTextFile("output_file_path")
+
   sparkSession.stop()
 
 }
