@@ -8,15 +8,15 @@ object SparkWordCountSQL extends App {
 
   case class Word(value: String)
 
-  val spark = SparkSession.builder()
+  val sparkSession = SparkSession.builder()
     .appName("Spark Word Count SQL")
     .master("local[*]")
     .config("spark.sql.streaming.checkpointLocation", "checkpoint")
     .getOrCreate()
 
-  import spark.implicits._
+  import sparkSession.implicits._
 
-  val wordDS = spark.sqlContext.read.textFile("input_file_path")
+  val wordDS = sparkSession.sqlContext.read.textFile("input_file_path")
     .flatMap(_.split("\\W+"))
     .map(Word)
 
@@ -24,6 +24,6 @@ object SparkWordCountSQL extends App {
 
   result.show()
 
-  spark.stop()
+  sparkSession.stop()
 
 }

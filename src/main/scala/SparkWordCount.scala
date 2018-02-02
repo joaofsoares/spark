@@ -1,5 +1,5 @@
 import org.apache.log4j.{Level, Logger}
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.sql.SparkSession
 
 object SparkWordCount extends App {
 
@@ -8,28 +8,22 @@ object SparkWordCount extends App {
   val InputFile = "input_file_path"
   val OutputDir = "output_file_path" + System.currentTimeMillis()
 
-  val sparkConf = new SparkConf().setAppName("Spark Word Count").setMaster("local[*]")
-  val sc = new SparkContext(sparkConf)
+  val sparkSession = SparkSession.builder
+    .appName("Spark Word Count")
+    .master("local[*]")
+    .getOrCreate()
 
-  // this block is used for big files
-  // val slices = if (args.length > 0) args(0).toInt else 2
-  // val n = 100000 * slices
-  // sc.textFile(InputFile, n)
+  val lines = sparkSession.sparkContext.textFile(InputFile)
 
-  val eachWord = sc.textFile(InputFile).flatMap(line => line.split("\\W+"))
+  val eachWord = lines flatMap (_.split("\\W+"))
 
-  val wordCount = eachWord.map((_, 1))
+  val wordCountRDD = eachWord map ((_, 1)) reduceByKey (_ + _) sortBy(_._2, false) cache()
 
-  val totalWordCount = wordCount.reduceByKey(_ + _)
+  for ((word, count) <- wordCountRDD)
+    println(word + " : " + count)
 
-  totalWordCount.saveAsTextFile(OutputDir)
+  wordCountRDD.saveAsTextFile(OutputDir)
 
-  // other way to do the same thing
-  //    sc.textFile(InputFile)
-  //      .flatMap(line => line.split("\\W+"))
-  //      .countByValue()
-  //      .saveAsTextFile(OutputDir)
-
-  sc.stop()
+  sparkSession.stop()
 
 }

@@ -14,15 +14,15 @@ object SparkJsonSQL extends App {
     Address(splitAddress(0).replace("[", ""), splitAddress(1), splitAddress(2), splitAddress(3).replace("]", ""))
   }
 
-  val spark = SparkSession.builder
+  val sparkSession = SparkSession.builder
     .appName("Spark Json")
     .master("local[*]")
     .config("spark.sql.streaming.checkpointLocation", "checkpoint")
     .getOrCreate()
 
-  import spark.implicits._
+  import sparkSession.implicits._
 
-  val customersDS = spark.sqlContext.read.json("json_file_path")
+  val customersDS = sparkSession.sqlContext.read.json("json_file_path")
     .map(element => Customer(element(1).toString, element(2).toString, getAddress(element(0).toString)))
     .cache()
 
@@ -30,6 +30,6 @@ object SparkJsonSQL extends App {
 
   customersDS.select(customersDS("first_name"), customersDS("address.street")).show()
 
-  spark.stop()
+  sparkSession.stop()
 
 }

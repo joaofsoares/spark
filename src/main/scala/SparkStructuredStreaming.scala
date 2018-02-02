@@ -5,17 +5,17 @@ object SparkStructuredStreaming extends App {
 
   Logger.getLogger("org").setLevel(Level.ERROR)
 
-  val spark = SparkSession.builder
+  val sparkSession = SparkSession.builder
     .appName("Spark Streaming Structured")
     .master("local[*]")
     .config("spark.sql.streaming.checkpointLocation", "checkpoint")
     .getOrCreate()
 
-  import spark.implicits._
+  import sparkSession.implicits._
 
   // reading every file from a directory
   //  val lines = spark.readStream.text("logs")
-  val lines = spark.readStream.format("socket").option("host", "localhost").option("port", 9999).load()
+  val lines = sparkSession.readStream.format("socket").option("host", "localhost").option("port", 9999).load()
 
   val wordCounts = lines.as[String].flatMap(_.split("\\W+")).groupBy("value").count()
 
